@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Happy Birthday - Gửi Tặng Món Quà Đặc Biệt</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Outfit:wght@400;500;600;700;800&family=Pacifico&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- CSS Hiện đại & Sang trọng -->
+    <link rel="stylesheet" href="style.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+    <!-- Nút bật/tắt nhạc nền -->
+    <button id="musicToggle" class="music-toggle" title="Bật/Tắt nhạc">
+        <i class="fa-solid fa-music"></i>
+    </button>
+
+    <div id="wrapper">
+        <!-- Dải cờ treo Happy Birthday -->
+        <div class="flag__birthday">
+            <img src="./images/1.png" alt="Cờ sinh nhật" class="flag__left">
+            <img src="./images/1.png" alt="Cờ sinh nhật" class="flag__right">
+        </div>
+
+        <!-- NỘI DUNG CHÍNH -->
+        <main class="content">
+            <!-- CỘT TRÁI: CHỮ CHÚC MỪNG & NÚT MỞ THƯ -->
+            <div class="left">
+                <div class="title">
+                    <h1 class="happy">
+                        <span style="--t: 0.2s;">H</span>
+                        <span style="--t: 0.35s;">a</span>
+                        <span style="--t: 0.5s;">p</span>
+                        <span style="--t: 0.65s;">p</span>
+                        <span style="--t: 0.8s;">y</span>
+                        <div class="hat">
+                            <img src="./images/hat.png" alt="Mũ sinh nhật">
+                        </div>
+                    </h1>
+                    <h1 class="birthday">
+                        <span style="--t: 0.95s;">B</span>
+                        <span style="--t: 1.1s;">i</span>
+                        <span style="--t: 1.25s;">r</span>
+                        <span style="--t: 1.4s;">t</span>
+                        <span style="--t: 1.55s;">h</span>
+                        <span style="--t: 1.7s;">d</span>
+                        <span style="--t: 1.85s;">a</span>
+                        <span style="--t: 2.0s;">y</span>
+                    </h1>
+                </div>
+
+                <div class="date__of__birth">
+                    <i class="fa-solid fa-star"></i>
+                    <span id="dateText"></span>
+                    <i class="fa-solid fa-star"></i>
+                </div>
+
+                <div class="btn-wrapper">
+                    <button id="btn__letter" type="button">
+                        <span id="btnLetterText">Ấn vào đây nè ku em🙋</span>
+                        <i class="fa-regular fa-envelope"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- CỘT PHẢI: KHUNG ẢNH ĐẠI DIỆN & BÓNG BAY -->
+            <div class="right">
+                <div class="box__account">
+                    <div class="image">
+                        <img src="./images/image.jpg" alt="Ảnh đại diện">
+                    </div>
+                    <div class="name">
+                        <i class="fa-solid fa-star"></i>
+                        <span id="recipientNameText">Lã Kiều Anh</span>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+
+                    <!-- Bóng bay bồng bềnh -->
+                    <div class="balloon_one">
+                        <img src="./images/balloon1.png" alt="Bóng bay">
+                    </div>
+                    <div class="balloon_two">
+                        <img src="./images/balloon2.png" alt="Bóng bay">
+                    </div>
+
+                    <!-- Vòng tròn chữ xoay -->
+                    <div class="cricle">
+                        <div class="text__cricle">
+                            <span style="--i: 1;">h</span>
+                            <span style="--i: 2;">a</span>
+                            <span style="--i: 3;">p</span>
+                            <span style="--i: 4;">p</span>
+                            <span style="--i: 5;">y</span>
+                            <span style="--i: 6;">-</span>
+                            <span style="--i: 7;">b</span>
+                            <span style="--i: 8;">i</span>
+                            <span style="--i: 9;">r</span>
+                            <span style="--i: 10;">t</span>
+                            <span style="--i: 11;">h</span>
+                            <span style="--i: 12;">d</span>
+                            <span style="--i: 13;">a</span>
+                            <span style="--i: 14;">y</span>
+                            <span style="--i: 15;">-</span>
+                        </div>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- CÁC NGÔI SAO TRANG TRÍ LẤP LÁNH -->
+        <div class="decorate_star star1"></div>
+        <div class="decorate_star star2"></div>
+        <div class="decorate_star star3"></div>
+        <div class="decorate_star star4"></div>
+        <div class="decorate_star star5"></div>
+    </div>
+
+    <!-- MODAL HỘP THƯ CHÚC MỪNG (BẬT RA KHI BẤM NÚT) -->
+    <div class="box__letter">
+        <div class="letter__border">
+            <button class="close" title="Đóng">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="letter">
+                <h2 class="title__letter"></h2>
+                <div class="content__letter">
+                    <div class="left">
+                        <img id="heart__letter"
+                            src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDlrc2RndjY3ZW4ycjVybnhyZmtibmk2ZGNrZGgwY2IwdHhibml1YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/Nb8yxAsyFeV2dOVgAd/giphy.gif"
+                            alt="Heart Gif">
+                    </div>
+                    <div class="right">
+                        <div class="text__letter">
+                            <p></p>
+                        </div>
+                        <img id="mewmew" src="./images/mewmew.gif" alt="Cute Cat">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Âm thanh nền -->
+    <audio id="bgMusic" loop preload="auto"></audio>
+
+    <!-- Cấu hình và kịch bản -->
+    <script src="config.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Lấy thông tin từ config.js
+            const recipientName = (typeof CONFIG !== 'undefined' && CONFIG.recipientName) ? CONFIG.recipientName : "Lã Kiều Anh";
+            const birthDate = (typeof CONFIG !== 'undefined' && CONFIG.birthDate) ? CONFIG.birthDate : "09-08-2004";
+            const letterTitle = (typeof CONFIG !== 'undefined' && CONFIG.letterTitle) ? CONFIG.letterTitle : `Gửi ${recipientName} nha 🥳🎂`;
+            const letterContent = (typeof CONFIG !== 'undefined' && CONFIG.letterContent) ? CONFIG.letterContent : "Happy Birthday! Chúc bạn tuổi mới luôn ngập tràn niềm vui, mạnh khỏe và thành công rực rỡ!";
+
+            $('#recipientNameText').text(recipientName);
+            $('#btnLetterText').text(`Ấn vào đây nè ku em 🙋`);
+
+            // Hiệu ứng gõ ngày sinh
+            let dateIdx = 0;
+            const dateSpan = document.getElementById("dateText");
+            const dateInterval = setInterval(() => {
+                if (dateIdx < birthDate.length) {
+                    dateSpan.textContent += birthDate[dateIdx];
+                    dateIdx++;
+                } else {
+                    clearInterval(dateInterval);
+                }
+            }, 120);
+
+            // Xử lý phát nhạc
+            const audio = document.getElementById('bgMusic');
+            const musicToggle = document.getElementById('musicToggle');
+            const soundList = (typeof CONFIG !== 'undefined' && CONFIG.sounds && CONFIG.sounds.length > 0)
+                ? CONFIG.sounds
+                : ['./sound/sound.mp3', './sound/sound1.mp3', './sound/sound2.mp3'];
+
+            audio.src = soundList[0];
+            audio.volume = 0.65;
+
+            function playMusic() {
+                audio.play().then(() => {
+                    musicToggle.classList.add('playing');
+                }).catch(err => {
+                    console.log('Autoplay cần tương tác từ người dùng:', err);
+                });
+            }
+
+            // Tự động phát nhạc khi vừa chuyển từ màn thổi nến sang
+            playMusic();
+
+            // Nếu trình duyệt chặn, chạm bất kỳ đâu sẽ phát ngay
+            $(document).one('click touchstart', function () {
+                if (audio.paused) {
+                    playMusic();
+                }
+            });
+
+            // Nút toggle nhạc
+            $('#musicToggle').on('click', function (e) {
+                e.stopPropagation();
+                if (audio.paused) {
+                    audio.play();
+                    $(this).classList ? $(this).classList.add('playing') : $(this).addClass('playing');
+                } else {
+                    audio.pause();
+                    $(this).classList ? $(this).classList.remove('playing') : $(this).removeClass('playing');
+                }
+            });
+
+            // Mở hộp thư và hiệu ứng gõ chữ
+            let titleInterval, contentInterval;
+
+            $("#btn__letter").on("click", function () {
+                $(".box__letter").css('display', 'flex').hide().fadeIn(350);
+
+                // Gõ tiêu đề thư
+                $(".title__letter").text("");
+                let tIdx = 0;
+                clearInterval(titleInterval);
+                titleInterval = setInterval(() => {
+                    if (tIdx < letterTitle.length) {
+                        $(".title__letter").text($(".title__letter").text() + letterTitle[tIdx]);
+                        tIdx++;
+                    } else {
+                        clearInterval(titleInterval);
+                        startTypingContent();
+                    }
+                }, 80);
+            });
+
+            function startTypingContent() {
+                $(".text__letter p").text("");
+                let cIdx = 0;
+                clearInterval(contentInterval);
+                contentInterval = setInterval(() => {
+                    if (cIdx < letterContent.length) {
+                        $(".text__letter p").text($(".text__letter p").text() + letterContent[cIdx]);
+                        cIdx++;
+                    } else {
+                        clearInterval(contentInterval);
+                    }
+                }, 35);
+            }
+
+            // Đóng hộp thư
+            $(".close").on("click", function () {
+                clearInterval(titleInterval);
+                clearInterval(contentInterval);
+                $(".box__letter").fadeOut(300);
+            });
+
+            // Đóng khi click ngoài viền thư
+            $(".box__letter").on("click", function (e) {
+                if ($(e.target).hasClass("box__letter")) {
+                    clearInterval(titleInterval);
+                    clearInterval(contentInterval);
+                    $(".box__letter").fadeOut(300);
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

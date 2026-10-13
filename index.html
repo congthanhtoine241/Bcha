@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Chúc Mừng Sinh Nhật - Thổi Nến Ước Nguyện</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Outfit:wght@400;500;600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="candle.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Thư viện Canvas Confetti & jQuery -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+</head>
+
+<body>
+    <!-- Màn chớp sáng khi nến tắt -->
+    <div id="flashOverlay" class="flash-overlay"></div>
+
+    <!-- Vòng tròn chỉ báo chạm giữ 3s bất kỳ đâu trên màn hình -->
+    <div id="touchRing" class="touch-ring">
+        <svg viewBox="0 0 84 84">
+            <circle class="bg" cx="42" cy="42" r="37"></circle>
+            <circle id="touchMeter" class="meter" cx="42" cy="42" r="37"></circle>
+        </svg>
+        <span class="touch-ring-icon">💨</span>
+    </div>
+
+    <!-- Nút bật/tắt nhạc nền (giữ liền mạch suốt trải nghiệm) -->
+    <button id="musicToggle" class="music-toggle" title="Bật/Tắt nhạc">
+        <i class="fa-solid fa-music"></i>
+    </button>
+
+    <!-- Âm thanh nền duy nhất (chạy liên tục, không bị ngắt quãng khi đổi stage) -->
+    <audio id="bgMusic" loop preload="auto"></audio>
+
+    <!-- =========================================================
+         STAGE 1: MÀN BÁNH KEM THỔI NẾN (TỰ BẬT MIC HOẶC GIỮ 3S)
+         ========================================================= -->
+    <section id="stageCake" class="stage-container">
+        <!-- HEADER -->
+        <header class="header-box">
+            <div class="badge-tag">
+                <i class="fa-solid fa-wand-magic-sparkles"></i>
+                <span>Birthday Moment</span>
+            </div>
+            <h1 id="candleTitle" class="title">Make A Wish</h1>
+            <p id="candleSubtitle" class="subtitle">
+                Hãy ước một điều ước thật đẹp rồi thổi tắt những ngọn nến nhé!
+            </p>
+        </header>
+
+        <!-- SÂN KHẤU BÁNH KEM -->
+        <div class="cake-stage">
+            <div class="candle-glow"></div>
+
+            <div class="cake-container">
+                <!-- Đĩa bánh -->
+                <div class="cake-plate"></div>
+
+                <!-- Tầng bánh dưới -->
+                <div class="tier-bottom">
+                    <div class="drips">
+                        <div class="drip"></div>
+                        <div class="drip"></div>
+                        <div class="drip"></div>
+                        <div class="drip"></div>
+                        <div class="drip"></div>
+                    </div>
+                </div>
+
+                <!-- Tầng bánh trên -->
+                <div class="tier-top">
+                    <!-- Dâu tây trang trí -->
+                    <div class="strawberries">
+                        <div class="berry"></div>
+                        <div class="berry"></div>
+                        <div class="berry"></div>
+                    </div>
+
+                    <!-- 3 ngọn nến -->
+                    <div class="candles-row">
+                        <!-- Nến 1 -->
+                        <div class="candle">
+                            <div class="wick"></div>
+                            <div class="flame"></div>
+                            <div class="smoke"></div>
+                        </div>
+
+                        <!-- Nến 2 -->
+                        <div class="candle">
+                            <div class="wick"></div>
+                            <div class="flame"></div>
+                            <div class="smoke"></div>
+                        </div>
+
+                        <!-- Nến 3 -->
+                        <div class="candle">
+                            <div class="wick"></div>
+                            <div class="flame"></div>
+                            <div class="smoke"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- DÒNG HƯỚNG DẪN KHÔNG CẦN NÚT NHẤN -->
+        <div class="candle-hint-box">
+            <div id="candleHintText" class="candle-hint">
+                <i class="fa-solid fa-microphone-lines"></i>
+                <span>Thổi vào mic hoặc chạm giữ màn hình 3s để thổi nến ✨</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- =========================================================
+         STAGE 2: MÀN CHÚC MỪNG SINH NHẬT & MỞ BỨC THƯ
+         (XUẤT HIỆN LIỀN MẠCH, NHẠC VẪN PHÁT TIẾP TỤC KHÔNG DỪNG)
+         ========================================================= -->
+    <section id="stageBirthday" class="stage-container stage-hidden">
+        <div id="wrapper">
+            <!-- Dải cờ treo Happy Birthday -->
+            <div class="flag__birthday">
+                <img src="./images/1.png" alt="Cờ sinh nhật" class="flag__left">
+                <img src="./images/1.png" alt="Cờ sinh nhật" class="flag__right">
+            </div>
+
+            <!-- NỘI DUNG CHÍNH -->
+            <main class="content">
+                <!-- CỘT TRÁI: CHỮ CHÚC MỪNG & NÚT MỞ THƯ -->
+                <div class="left">
+                    <div class="title">
+                        <h1 class="happy">
+                            <span style="--t: 0.2s;">H</span>
+                            <span style="--t: 0.35s;">a</span>
+                            <span style="--t: 0.5s;">p</span>
+                            <span style="--t: 0.65s;">p</span>
+                            <span style="--t: 0.8s;">y</span>
+                            <div class="hat">
+                                <img src="./images/hat.png" alt="Mũ sinh nhật">
+                            </div>
+                        </h1>
+                        <h1 class="birthday">
+                            <span style="--t: 0.95s;">B</span>
+                            <span style="--t: 1.1s;">i</span>
+                            <span style="--t: 1.25s;">r</span>
+                            <span style="--t: 1.4s;">t</span>
+                            <span style="--t: 1.55s;">h</span>
+                            <span style="--t: 1.7s;">d</span>
+                            <span style="--t: 1.85s;">a</span>
+                            <span style="--t: 2.0s;">y</span>
+                        </h1>
+                    </div>
+
+                    <div class="date__of__birth">
+                        <i class="fa-solid fa-star"></i>
+                        <span id="dateText"></span>
+                        <i class="fa-solid fa-star"></i>
+                    </div>
+
+                    <div class="btn-wrapper">
+                        <button id="btn__letter" type="button">
+                            <span id="btnLetterText">Mở bức thư chúc mừng 💌</span>
+                            <i class="fa-regular fa-envelope"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- CỘT PHẢI: KHUNG ẢNH ĐẠI DIỆN & BÓNG BAY -->
+                <div class="right">
+                    <div class="box__account">
+                        <div class="image">
+                            <img src="./images/image.jpg" alt="Ảnh đại diện">
+                        </div>
+                        <div class="name">
+                            <i class="fa-solid fa-star"></i>
+                            <span id="recipientNameText">Lã Kiều Anh</span>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+
+                        <!-- Bóng bay bồng bềnh -->
+                        <div class="balloon_one">
+                            <img src="./images/balloon1.png" alt="Bóng bay">
+                        </div>
+                        <div class="balloon_two">
+                            <img src="./images/balloon2.png" alt="Bóng bay">
+                        </div>
+
+                        <!-- Vòng tròn chữ xoay -->
+                        <div class="cricle">
+                            <div class="text__cricle">
+                                <span style="--i: 1;">h</span>
+                                <span style="--i: 2;">a</span>
+                                <span style="--i: 3;">p</span>
+                                <span style="--i: 4;">p</span>
+                                <span style="--i: 5;">y</span>
+                                <span style="--i: 6;">-</span>
+                                <span style="--i: 7;">b</span>
+                                <span style="--i: 8;">i</span>
+                                <span style="--i: 9;">r</span>
+                                <span style="--i: 10;">t</span>
+                                <span style="--i: 11;">h</span>
+                                <span style="--i: 12;">d</span>
+                                <span style="--i: 13;">a</span>
+                                <span style="--i: 14;">y</span>
+                                <span style="--i: 15;">-</span>
+                            </div>
+                            <i class="fa-solid fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <!-- CÁC NGÔI SAO TRANG TRÍ LẤP LÁNH -->
+            <div class="decorate_star star1"></div>
+            <div class="decorate_star star2"></div>
+            <div class="decorate_star star3"></div>
+            <div class="decorate_star star4"></div>
+            <div class="decorate_star star5"></div>
+        </div>
+
+        <!-- MODAL HỘP THƯ CHÚC MỪNG -->
+        <div class="box__letter">
+            <div class="letter__border">
+                <button class="close" title="Đóng">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <div class="letter">
+                    <h2 class="title__letter"></h2>
+                    <div class="content__letter">
+                        <div class="left">
+                            <img id="heart__letter"
+                                src="https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExZDlrc2RndjY3ZW4ycjVybnhyZmtibmk2ZGNrZGgwY2IwdHhibml1YyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/Nb8yxAsyFeV2dOVgAd/giphy.gif"
+                                alt="Heart Gif">
+                        </div>
+                        <div class="right">
+                            <div class="text__letter">
+                                <p></p>
+                            </div>
+                            <img id="mewmew" src="./images/mewmew.gif" alt="Cute Cat">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cấu hình và JavaScript tương tác liền mạch -->
+    <script src="config.js"></script>
+    <script src="candle.js"></script>
+</body>
+
+</html>
