@@ -16,7 +16,9 @@ const state = {
     blowDurationCount: 0,
     holdTimer: null,
     holdStartTime: 0,
-    audioElement: null
+    audioElement: null,
+    hasProceeded: false,
+    countdownTimer: null
 };
 
 const AUDIO_CONFIG = {
@@ -33,7 +35,7 @@ function unlockAudio() {
     const audio = document.getElementById('bgMusic');
     if (!audio) return;
 
-    let soundList = ['./sound/sound.mp3', './sound/sound1.mp3', './sound/sound2.mp3'];
+    let soundList = ['./sound/sound.mp3', './sound/sound1.mp3'];
     if (typeof CONFIG !== 'undefined' && CONFIG.sounds && CONFIG.sounds.length > 0) {
         soundList = CONFIG.sounds;
     }
@@ -301,7 +303,7 @@ function initScreenHoldToBlow() {
 }
 
 /* =========================================================
-   4. KHOẢNH KHẮC NẾN TẮT: ĐÈN BỪNG SÁNG, PHÁO GIẤY & NHẠC
+   4. KHOẢNH KHẮC NẾN TẮT: ĐÈN BỪNG SÁNG, PHÁO GIẤY & BẢNG THÔNG BÁO
    ========================================================= */
 function handleBlowSuccess() {
     if (state.isCandleBlown) return;
@@ -337,33 +339,97 @@ function handleBlowSuccess() {
         document.body.classList.add('room-lit');
     }
 
-    // 4. BẮT ĐẦU PHÁT NHẠC SINH NHẬT NGAY TẠI ĐÂY (LIỀN MẠCH 100%)
-    startContinuousMusic();
-
-    // 5. BẮN PHÁO GIẤY CONFETTI RỰC RỠ
+    // 4. BẮN PHÁO GIẤY CONFETTI ĐỢT 1 RỰC RỠ
     fireConfetti();
 
-    // 6. CHUYỂN TIẾP MƯỢT MÀ SANG STAGE 2 (KHÔNG HỀ RELOAD TRANG, NHẠC TIẾP TỤC CHẠY)
+    // 5. HIỆN BẢNG THÔNG BÁO SAU KHI NẾN TẮT KÈM NÚT CHUYỂN HOẶC TỰ CHUYỂN SAU 3S
     setTimeout(() => {
-        const stageCake = document.getElementById('stageCake');
-        const stageBirthday = document.getElementById('stageBirthday');
+        showTransitionModal();
+    }, 700);
+}
 
-        if (stageCake) {
-            stageCake.classList.add('stage-fade-out');
+function showTransitionModal() {
+    const modal = document.getElementById('transitionModal');
+    const btnProceed = document.getElementById('btnProceedBirthday');
+    const countdownEl = document.getElementById('countdownTimer');
+    if (!modal) {
+        proceedToBirthdayStage();
+        return;
+    }
+
+    modal.style.display = 'flex';
+    modal.classList.remove('closing');
+
+    let secondsLeft = 3;
+    if (countdownEl) countdownEl.textContent = secondsLeft;
+
+    if (state.countdownTimer) clearInterval(state.countdownTimer);
+
+    state.countdownTimer = setInterval(() => {
+        secondsLeft--;
+        if (countdownEl) countdownEl.textContent = secondsLeft;
+        if (secondsLeft <= 0) {
+            clearInterval(state.countdownTimer);
+            state.countdownTimer = null;
+            proceedToBirthdayStage();
+        }
+    }, 1000);
+
+    if (btnProceed) {
+        btnProceed.onclick = function (e) {
+            e.stopPropagation();
+            if (state.countdownTimer) {
+                clearInterval(state.countdownTimer);
+                state.countdownTimer = null;
+            }
+            proceedToBirthdayStage();
+        };
+    }
+}
+
+function proceedToBirthdayStage() {
+    if (state.hasProceeded) return;
+    state.hasProceeded = true;
+
+    if (state.countdownTimer) {
+        clearInterval(state.countdownTimer);
+        state.countdownTimer = null;
+    }
+
+    // 1. BẮT ĐẦU PHÁT NHẠC (Trình duyệt cấp quyền tuyệt đối vì xuất phát từ tương tác người dùng)
+    startContinuousMusic();
+
+    // 2. ẨN BẢNG THÔNG BÁO
+    const modal = document.getElementById('transitionModal');
+    if (modal) {
+        modal.classList.add('closing');
+        setTimeout(() => {
+            modal.style.display = 'none';
+        }, 320);
+    }
+
+    // 3. CHUYỂN TIẾP MƯỢT MÀ SANG STAGE 2
+    const stageCake = document.getElementById('stageCake');
+    const stageBirthday = document.getElementById('stageBirthday');
+
+    if (stageCake) {
+        stageCake.classList.add('stage-fade-out');
+    }
+
+    setTimeout(() => {
+        if (stageCake) stageCake.classList.add('stage-hidden');
+
+        if (stageBirthday) {
+            stageBirthday.classList.remove('stage-hidden');
+            stageBirthday.classList.add('stage-fade-in');
         }
 
-        setTimeout(() => {
-            if (stageCake) stageCake.classList.add('stage-hidden');
+        // Bắn thêm pháo giấy chúc mừng
+        fireConfetti();
 
-            if (stageBirthday) {
-                stageBirthday.classList.remove('stage-hidden');
-                stageBirthday.classList.add('stage-fade-in');
-            }
-
-            // Kích hoạt animation của Stage 2 (gõ ngày sinh, tương tác thư)
-            initStageBirthdayAnimations();
-        }, 800);
-    }, 2200);
+        // Kích hoạt animation của Stage 2 (gõ ngày sinh, tương tác thư)
+        initStageBirthdayAnimations();
+    }, 600);
 }
 
 /* =========================================================
@@ -374,7 +440,7 @@ function startContinuousMusic() {
     const musicToggle = document.getElementById('musicToggle');
     if (!audio) return;
 
-    let soundList = ['./sound/sound.mp3', './sound/sound1.mp3', './sound/sound2.mp3'];
+    let soundList = ['./sound/sound.mp3', './sound/sound1.mp3'];
     if (typeof CONFIG !== 'undefined' && CONFIG.sounds && CONFIG.sounds.length > 0) {
         soundList = CONFIG.sounds;
     }
@@ -383,7 +449,7 @@ function startContinuousMusic() {
         audio.src = soundList[0];
     }
     audio.currentTime = 0;
-    audio.volume = 0.7;
+    audio.volume = 0.75;
 
     const playPromise = audio.play();
     if (playPromise !== undefined) {
@@ -395,11 +461,13 @@ function startContinuousMusic() {
                 audio.play().then(() => {
                     if (musicToggle) musicToggle.classList.add('playing');
                 }).catch(() => { });
-                window.removeEventListener('pointerdown', playOnTouch);
-                window.removeEventListener('click', playOnTouch);
+                ['pointerdown', 'click', 'touchstart'].forEach(evt => {
+                    window.removeEventListener(evt, playOnTouch);
+                });
             };
-            window.addEventListener('pointerdown', playOnTouch, { once: true });
-            window.addEventListener('click', playOnTouch, { once: true });
+            ['pointerdown', 'click', 'touchstart'].forEach(evt => {
+                window.addEventListener(evt, playOnTouch, { once: true });
+            });
         });
     }
 
@@ -474,6 +542,15 @@ function initStageBirthdayAnimations() {
 
     if (btnLetter && boxLetter) {
         btnLetter.onclick = function () {
+            // Đảm bảo nhạc bật nếu trước đó người dùng chưa chạm
+            const audio = document.getElementById('bgMusic');
+            if (audio && audio.paused) {
+                audio.play().then(() => {
+                    const musicToggle = document.getElementById('musicToggle');
+                    if (musicToggle) musicToggle.classList.add('playing');
+                }).catch(() => { });
+            }
+
             $(boxLetter).css('display', 'flex').hide().fadeIn(350);
 
             // Gõ tiêu đề thư

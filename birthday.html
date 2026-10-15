@@ -188,7 +188,7 @@
             const musicToggle = document.getElementById('musicToggle');
             const soundList = (typeof CONFIG !== 'undefined' && CONFIG.sounds && CONFIG.sounds.length > 0)
                 ? CONFIG.sounds
-                : ['./sound/sound.mp3', './sound/sound1.mp3', './sound/sound2.mp3'];
+                : ['./sound/sound.mp3', './sound/sound1.mp3'];
 
             audio.src = soundList[0];
             audio.volume = 0.65;

@@ -38,7 +38,7 @@ body {
 /* HIỆU ỨNG ĐÈN BỪNG SÁNG KHI NẾN TẮT (NỀN ĐÊM DẠ TIỆC SANG TRỌNG, KHÔNG BỊ TRẮNG HỒNG LOANG) */
 body.room-lit {
     background-color: #070a12;
-    background-image: 
+    background-image:
         radial-gradient(circle at 50% 30%, rgba(245, 158, 11, 0.16) 0%, transparent 60%),
         radial-gradient(circle at 85% 20%, rgba(225, 29, 72, 0.14) 0%, transparent 50%),
         radial-gradient(circle at 15% 80%, rgba(99, 102, 241, 0.14) 0%, transparent 50%),
@@ -152,6 +152,7 @@ body.room-lit {
         opacity: 0;
         transform: translateY(40px) scale(0.95);
     }
+
     to {
         opacity: 1;
         transform: translateY(0) scale(1);
@@ -233,8 +234,17 @@ body.room-lit {
 }
 
 @keyframes pulse-glow {
-    0%, 100% { opacity: 0.85; transform: translateX(-50%) scale(1); }
-    50% { opacity: 1; transform: translateX(-50%) scale(1.08); }
+
+    0%,
+    100% {
+        opacity: 0.85;
+        transform: translateX(-50%) scale(1);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateX(-50%) scale(1.08);
+    }
 }
 
 .candle-glow.out {
@@ -308,8 +318,13 @@ body.room-lit {
     border-radius: 0 0 10px 10px;
 }
 
-.drip:nth-child(2) { height: 26px; }
-.drip:nth-child(4) { height: 22px; }
+.drip:nth-child(2) {
+    height: 26px;
+}
+
+.drip:nth-child(4) {
+    height: 22px;
+}
 
 /* TẦNG TRÊN */
 .tier-top {
@@ -352,7 +367,7 @@ body.room-lit {
     height: 18px;
     background: radial-gradient(circle at 35% 35%, #fb7185, #e11d48);
     border-radius: 50% 50% 45% 45%;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.25);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.25);
 }
 
 /* NẾN VÀ LỬA */
@@ -413,11 +428,25 @@ body.room-lit {
 }
 
 @keyframes flame-flicker {
-    0% { transform: translateX(-50%) rotate(-2deg) scale(1, 1); }
-    25% { transform: translateX(-50%) rotate(3deg) scale(1.05, 1.1); }
-    50% { transform: translateX(-50%) rotate(-3deg) scale(0.95, 0.95); }
-    75% { transform: translateX(-50%) rotate(2deg) scale(1.02, 1.05); }
-    100% { transform: translateX(-50%) rotate(-1deg) scale(1, 1); }
+    0% {
+        transform: translateX(-50%) rotate(-2deg) scale(1, 1);
+    }
+
+    25% {
+        transform: translateX(-50%) rotate(3deg) scale(1.05, 1.1);
+    }
+
+    50% {
+        transform: translateX(-50%) rotate(-3deg) scale(0.95, 0.95);
+    }
+
+    75% {
+        transform: translateX(-50%) rotate(2deg) scale(1.02, 1.05);
+    }
+
+    100% {
+        transform: translateX(-50%) rotate(-1deg) scale(1, 1);
+    }
 }
 
 .flame.blowing {
@@ -425,8 +454,13 @@ body.room-lit {
 }
 
 @keyframes flame-blown {
-    0% { transform: translateX(-50%) rotate(25deg) scale(0.7, 1.3); }
-    100% { transform: translateX(-50%) rotate(40deg) scale(0.5, 1.4); }
+    0% {
+        transform: translateX(-50%) rotate(25deg) scale(0.7, 1.3);
+    }
+
+    100% {
+        transform: translateX(-50%) rotate(40deg) scale(0.5, 1.4);
+    }
 }
 
 .flame.out {
@@ -458,11 +492,13 @@ body.room-lit {
         transform: translateX(-50%) scale(1) translateY(0);
         filter: blur(1px);
     }
+
     50% {
         opacity: 0.5;
         transform: translateX(calc(-50% + 15px)) scale(2.5) translateY(-25px);
         filter: blur(3px);
     }
+
     100% {
         opacity: 0;
         transform: translateX(calc(-50% + 28px)) scale(4.5) translateY(-55px);
@@ -498,8 +534,17 @@ body.room-lit {
 }
 
 @keyframes breatheHint {
-    0%, 100% { transform: scale(1); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); }
-    50% { transform: scale(1.03); box-shadow: 0 6px 25px rgba(253, 224, 71, 0.25); }
+
+    0%,
+    100% {
+        transform: scale(1);
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    50% {
+        transform: scale(1.03);
+        box-shadow: 0 6px 25px rgba(253, 224, 71, 0.25);
+    }
 }
 
 .mic-active-dot {
@@ -538,5 +583,157 @@ body.room-lit {
     .candle-hint {
         font-size: 0.85rem;
         padding: 8px 18px;
+    }
+}
+
+/* =========================================================
+   BẢNG THÔNG BÁO CHUYỂN TIẾP SAU KHI THỔI NẾN (INTERACTION GATE)
+   ========================================================= */
+.transition-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.transition-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(5, 7, 15, 0.78);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    animation: fadeInModal 0.35s ease forwards;
+}
+
+.transition-card {
+    position: relative;
+    z-index: 2;
+    background: linear-gradient(145deg, rgba(30, 32, 58, 0.94) 0%, rgba(15, 17, 32, 0.98) 100%);
+    border: 1px solid rgba(253, 224, 71, 0.35);
+    border-radius: 24px;
+    padding: 32px 28px 24px;
+    max-width: 420px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.6),
+        0 0 35px rgba(245, 158, 11, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    animation: popUpModal 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+.transition-emoji {
+    font-size: 2.8rem;
+    margin-bottom: 12px;
+    display: inline-block;
+    animation: bounceEmoji 1.5s infinite ease-in-out;
+}
+
+@keyframes bounceEmoji {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-8px) scale(1.1); }
+}
+
+.transition-title {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.4rem;
+    font-weight: 800;
+    line-height: 1.35;
+    color: #f8fafc;
+    margin-bottom: 10px;
+    background: linear-gradient(135deg, #ffffff 0%, #fef08a 60%, #f59e0b 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.transition-desc {
+    font-size: 0.92rem;
+    color: #cbd5e1;
+    line-height: 1.5;
+    margin-bottom: 22px;
+}
+
+.btn-proceed {
+    width: 100%;
+    padding: 15px 24px;
+    border-radius: 999px;
+    border: none;
+    background: linear-gradient(135deg, #fb7185 0%, #f43f5e 50%, #f59e0b 100%);
+    background-size: 200% 200%;
+    color: #ffffff;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(244, 63, 94, 0.45), 0 0 15px rgba(245, 158, 11, 0.3);
+    transition: all 0.25s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.btn-proceed:hover,
+.btn-proceed:active {
+    transform: scale(1.03);
+    box-shadow: 0 12px 30px rgba(244, 63, 94, 0.6), 0 0 25px rgba(245, 158, 11, 0.45);
+}
+
+.transition-timer {
+    margin-top: 16px;
+    font-size: 0.85rem;
+    color: #94a3b8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+}
+
+.transition-timer b {
+    color: #fde047;
+    font-size: 1rem;
+}
+
+@keyframes fadeInModal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes popUpModal {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(25px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+.transition-modal.closing .transition-backdrop {
+    animation: fadeOutModal 0.3s ease forwards;
+}
+
+.transition-modal.closing .transition-card {
+    animation: popDownModal 0.3s ease forwards;
+}
+
+@keyframes fadeOutModal {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+@keyframes popDownModal {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+    to {
+        opacity: 0;
+        transform: scale(0.85) translateY(15px);
     }
 }

@@ -9,7 +9,9 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Outfit:wght@400;500;600;700;800&family=Pacifico&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Outfit:wght@400;500;600;700;800&family=Pacifico&display=swap"
+        rel="stylesheet">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -42,7 +44,21 @@
     </button>
 
     <!-- Âm thanh nền duy nhất (chạy liên tục, không bị ngắt quãng khi đổi stage) -->
-    <audio id="bgMusic" loop preload="auto"></audio>
+    <audio id="bgMusic" loop preload="auto" playsinline src="./sound/sound.mp3"></audio>
+
+    <!-- =========================================================
+         BẢNG THÔNG BÁO CHUYỂN TIẾP SAU KHI THỔI NẾN (INTERACTION GATE)
+         ========================================================= -->
+    <div id="transitionModal" class="transition-modal" style="display: none;">
+        <div class="transition-backdrop"></div>
+        <div class="transition-card">
+            <div class="transition-emoji">🎉🎂✨</div>
+            <h2 class="transition-title">Thổi nến rồi, ước luôn rồi giờ tới phần chính được chưa ní?</h2>
+            <button id="btnProceedBirthday" class="btn-proceed" type="button">
+                <span>Tới luôn ní ơi </span>
+            </button>
+        </div>
+    </div>
 
     <!-- =========================================================
          STAGE 1: MÀN BÁNH KEM THỔI NẾN (TỰ BẬT MIC HOẶC GIỮ 3S)
